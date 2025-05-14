@@ -16,7 +16,7 @@ type post = {
         .then(response => 
             response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
             setMyData(data.results)
     })
     .catch(error => console.error("error", error))}, []);

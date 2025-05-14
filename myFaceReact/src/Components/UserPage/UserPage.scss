@@ -1,0 +1,34 @@
+$backgroundColor: green;
+$fontSize: 100px;
+$lineHeight: $fontSize + 6px;
+$myClassWidth: 30%;
+$padding: 10px;
+
+
+
+.title {
+background-color: $backgroundColor;
+font-size: $fontSize;
+line-height: $lineHeight;
+padding: $padding;
+width: $myClassWidth;
+}
+.user-info {
+background-color: $backgroundColor;
+height: auto;
+width: 100% - $myClassWidth;
+}
+
+
+
+.title {
+ background-color: white;
+ 
+ .user-info {
+ background-color: black;
+ 
+ &:hover {
+ background-color: orange;
+ }
+ }
+}
