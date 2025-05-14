@@ -1,85 +1,76 @@
 import  {useState, useEffect} from "react";
+import {useForm} from 'react-hook-form';
 
 function CreateUser () {
 
 const [name, setName] = useState("")
 const [userName, setUserName] = useState("");
 const [email, setEmail] = useState("")
-  const [value, setValue] = useState("");
-    const [result, setResult] = useState("");
+const[coverImageUrl, setCoverImageUrl] = useState("");
+const [profileImageUrl, setProfileImageUrl] = useState("");
 
 
-console.log(value)
+type CreateUserRequest = {
+    name: string;
+    username: string;
+    email: string;
+    coverImageUrl: string;
+    profileImageUrl: string;
+}
 
-// type CreateUserRequest = {
-//     name: string;
-//     username: string;
-//     email: string;
-//     coverImageUrl: string;
-//     profileImageUrl: string;
-// }
 
- useEffect (() => {
-        fetch("http://localhost:3001/users/create", {method: 'POST',
-            body: JSON.stringify({
-            "userName": value})}
 
-        /*.then(response => 
-            response.json())
-            .then(data => {
-                console.log(data)
-            setMyData(data)
+const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    fetch("http://localhost:3001/users/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name,
+            username: userName,
+            email: email,
+            coverImageUrl: coverImageUrl,
+            profileImageUrl: profileImageUrl,
+        }),
     })
-    .catch(error => console.error("error", error))}, []);*/
-
-
-
-// router.post('/create/',
-//     body('name').notEmpty(),
-//     body('username').notEmpty().isLowercase().not().contains(" "),
-//     body('email').notEmpty().isEmail(),
-//     body('coverImageUrl').notEmpty(),
-//     body('profileImageUrl').notEmpty(),
-//     async (request, response) => {
-
-const handleSubmit = (event) => {
-        event.preventDefault();
-
-        if (!value.trim()) {
-            alert("Input cannot be empty!");
-        } else {
-            setResult(value);
-            alert("Form submitted successfully!");
-        }
-    };
-
-    const handleChange = (event) => {
-            (event.target.value);
-        setResult(""); 
-    };
-
+    .then(data => 
+         console.log("User created:", data))
+    .catch(error => console.error("Error creating user:", error));
+};
+            
+ const {reset} = useForm({name: '',
+                    undefinedserName: '',
+                    email:'',
+                    coverImageUrl:'',
+                    profileImageUrl:''});
+ 
 
 
     return (
         <>
           <h1>In create user page </h1>
           <form onSubmit={handleSubmit}>
+
             <label>Name
-            <input type = "text" name={name} setName={setName} onChange={handleChange}></input> 
+            <input type = "text" value ={name} onChange = {(e) => setName(e.target.value)} ></input> 
             </label>
             <label>Username
-            <input type = "text" username={userName} setUserName={setUserName} onChange={handleChange}></input> 
+            <input type = "text" value ={userName} onChange = {(e) => setUserName(e.target.value)}></input>
             </label>
             <label>Email
-            <input type = "text" email={email} setEmail={setEmail} onChange={handleChange}></input> 
+            <input type = "text" value ={email} onChange = {(e) => setEmail(e.target.value)}></input>
             </label>
-            <label>Cover Image URL 
-            <input type = "text" email={email} setEmail={setEmail} onChange={handleChange}></input> 
+            <label>Cover Image URL
+            <input type = "text" value ={coverImageUrl} onChange = {(e) => setCoverImageUrl(e.target.value)}></input>
             </label>
-
-            <button type = "submit" >Submit</button>
+            <label>Profile image URL
+            <input type = "text" value ={profileImageUrl} onChange = {(e) => setProfileImageUrl(e.target.value)}></input>
+            </label>
+            <button type = "submit" onClick={() => form.reset()} >Submit</button>
           </form>
-                <p>Result: {result}</p>
         </>
     )
 }

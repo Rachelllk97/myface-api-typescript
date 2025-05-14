@@ -1,8 +1,10 @@
 import  {useState, useEffect} from "react";
 import './UserPage.scss'
+import { useParams } from "react-router"
 
  function UserPage () {
-    const [myData, setMyData] =  useState<user[]>([]);
+    const [myData, setMyData] =  useState<user>();
+  const {userId} = useParams()
 
 
 type user = {
@@ -16,18 +18,24 @@ type user = {
 
 
     useEffect (() => {
-        fetch("http://localhost:3001/users/1/")
+        if(!userId) return;
+
+        fetch(`http://localhost:3001/users/${userId}/`)
         .then(response => 
             response.json())
             .then(data => {
                 console.log(data)
             setMyData(data)
     })
-    .catch(error => console.error("error", error))}, []);
+    .catch(error => console.error("error", error))},[userId] );
 
     return (
         <div>
+        {myData && myData.id? (
+        
+        <>
              <h1 className="title">User</h1>
+             <ul>
                     <li className='user-info' key={myData.id} >
                         <div>
                             {myData.name}
@@ -37,10 +45,14 @@ type user = {
                         <img className="post-image" src={myData. profileImageUrl}/>
                         </div>
                     </li>
-        
-                </div>
-)
+                    </ul>
+        </>
+            
+) : (
+<p> Loading ...</p>)
  }
-
+ </div>
+    )
+ }
 export default UserPage;
 
