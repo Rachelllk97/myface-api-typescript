@@ -1,4 +1,4 @@
-import  {useState, useEffect} from "react";
+import  {useState, useEffect, type ChangeEvent} from "react";
 import {useForm} from 'react-hook-form';
 
 function CreateUser () {
@@ -6,9 +6,11 @@ function CreateUser () {
 const [name, setName] = useState("")
 const [userName, setUserName] = useState("");
 const [email, setEmail] = useState("")
-const[coverImageUrl, setCoverImageUrl] = useState("");
+const [coverImageUrl, setCoverImageUrl] = useState("");
 const [profileImageUrl, setProfileImageUrl] = useState("");
 const [isSubmitted, setIsSubmitted] = useState(false);
+const [error, setError] = useState(false);
+const [inputName, setInputName] = useState("");
 
 
 type CreateUserRequest = {
@@ -51,38 +53,43 @@ const handleSubmit = (event: React.FormEvent) => {
     .catch(error => console.error("Error creating user:", error));
 };
             
-//  const {reset} = useForm({name: '',
-//                     undefinedserName: '',
-//                     email:'',
-//                     coverImageUrl:'',
-//                     profileImageUrl:''});
  
 
+function isEmpty(event) {
+    if(!event.target.value){
+        console.log(event.target.name + " should not be empty");
+        setError(true);
+        setInputName(event.target.name);
+    }
+}
 
     return (
         <>
-          <h1>In create user page </h1>
-          <form onSubmit={handleSubmit}>
+            <h1>In create user page </h1>
+            <form onSubmit={handleSubmit}>
 
-            <label>Name
-            <input type = "text" value ={name} onChange = {(e) => setName(e.target.value)} ></input> 
-            </label>
-            <label>Username
-            <input type = "text" value ={userName} onChange = {(e) => setUserName(e.target.value)}></input>
-            </label>
-            <label>Email
-            <input type = "text" value ={email} onChange = {(e) => setEmail(e.target.value)}></input>
-            </label>
-            <label>Cover Image URL
-            <input type = "text" value ={coverImageUrl} onChange = {(e) => setCoverImageUrl(e.target.value)}></input>
-            </label>
-            <label>Profile image URL
-            <input type = "text" value ={profileImageUrl} onChange = {(e) => setProfileImageUrl(e.target.value)}></input>
-            </label>
-            <button type = "submit" onClick={handleSubmit} >Submit</button>
-          </form>
-           <div>
-            {isSubmitted ? 'User Created Successfully' : null }
+                <label>Name
+                    <input type = "text" value ={name} name = "Name" onChange = {(e) => setName(e.target.value)} onMouseOut={(e) => isEmpty(e)}></input> 
+                </label>
+                <label>Username
+                    <input type = "text" value ={userName} name = "Username" onChange = {(e) => {setUserName(e.target.value); isEmpty(e)}}></input>
+                </label>
+                <label>Email
+                    <input type = "text" value ={email} name = "Email" onChange = {(e) => {setEmail(e.target.value); isEmpty(e)}}></input>
+                </label>
+                <label>Cover Image URL
+                    <input type = "text" value ={coverImageUrl} name = "Cover Image URL" onChange = {(e) => {setCoverImageUrl(e.target.value); isEmpty(e)}}></input>
+                </label>
+                <label>Profile image URL
+                    <input type = "text" value ={profileImageUrl} name = "Profile Image URL" onChange = {(e) => {setProfileImageUrl(e.target.value); isEmpty(e)}}></input>
+                </label>
+                    <button type = "submit" onClick={handleSubmit} >Submit</button>
+            </form>
+            <div>
+                {isSubmitted ? 'User Created Successfully' : null }
+            </div>
+            <div>
+                {error ? `${inputName} should not be empty` : null}
             </div>
  
         </>
