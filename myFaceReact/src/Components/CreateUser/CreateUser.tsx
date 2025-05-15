@@ -39,7 +39,15 @@ const handleSubmit = (event: React.FormEvent) => {
     })
     .then(data => 
          console.log("User created:", data))
-    .then(isSubmitted => setIsSubmitted(true))
+    .then(isSubmitted => {
+        setIsSubmitted(true)
+        setName("")
+        setUserName("")
+        setEmail("")
+        setCoverImageUrl("")
+        setProfileImageUrl("")
+})
+    
     .catch(error => console.error("Error creating user:", error));
 };
             
