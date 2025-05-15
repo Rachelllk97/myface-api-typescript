@@ -8,6 +8,7 @@ const [userName, setUserName] = useState("");
 const [email, setEmail] = useState("")
 const[coverImageUrl, setCoverImageUrl] = useState("");
 const [profileImageUrl, setProfileImageUrl] = useState("");
+const [isSubmitted, setIsSubmitted] = useState(false);
 
 
 type CreateUserRequest = {
@@ -38,14 +39,15 @@ const handleSubmit = (event: React.FormEvent) => {
     })
     .then(data => 
          console.log("User created:", data))
+    .then(isSubmitted => setIsSubmitted(true))
     .catch(error => console.error("Error creating user:", error));
 };
             
- const {reset} = useForm({name: '',
-                    undefinedserName: '',
-                    email:'',
-                    coverImageUrl:'',
-                    profileImageUrl:''});
+//  const {reset} = useForm({name: '',
+//                     undefinedserName: '',
+//                     email:'',
+//                     coverImageUrl:'',
+//                     profileImageUrl:''});
  
 
 
@@ -69,8 +71,12 @@ const handleSubmit = (event: React.FormEvent) => {
             <label>Profile image URL
             <input type = "text" value ={profileImageUrl} onChange = {(e) => setProfileImageUrl(e.target.value)}></input>
             </label>
-            <button type = "submit" onClick={() => form.reset()} >Submit</button>
+            <button type = "submit" onClick={handleSubmit} >Submit</button>
           </form>
+           <div>
+            {isSubmitted ? 'User Created Successfully' : null }
+            </div>
+ 
         </>
     )
 }
