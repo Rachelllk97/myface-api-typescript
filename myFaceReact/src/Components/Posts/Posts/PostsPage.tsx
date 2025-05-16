@@ -1,14 +1,16 @@
 import  {useState, useEffect} from "react";
 
- function PostsPage () {
-    const [myData, setMyData] =  useState<post[]>([]);
-
-type post = {
+export type post = {
     id:number;
     message: string;
     postedBy: {name: string};
     imageUrl: string;
 }
+
+
+
+ function PostsPage () {
+    const [myData, setMyData] =  useState<post[]>([]);
 
 
     useEffect (() => {
